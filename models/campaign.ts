@@ -25,52 +25,34 @@ const campaignSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  objective: {
-    type: String,
-    required: true,
-    enum: ['awareness', 'conversion', 'retention', 'feedback'],
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
   segment: {
     type: String,
     required: true,
   },
-  audienceRules: [{
-    rules: [{
-      field: String,
-      operator: String,
-      value: String,
-    }],
-  }],
-  messageVariants: [{
-    content: String,
-    type: {
-      type: String,
-      enum: ['text', 'image', 'video'],
-    },
-  }],
-  tag: {
-    type: String,
-    enum: [
-      'Win-back',
-      'High-Value Customers',
-      'New Customers',
-      'Engagement',
-      'Loyalty',
-      'Seasonal',
-      'Feedback',
-      'Cart Abandonment',
-      'General'
-    ],
-    default: 'General',
-  },
   status: {
     type: String,
     enum: ['draft', 'sending', 'completed', 'failed'],
     default: 'draft',
+  },
+  messageVariants: [{
+    content: String,
+    type: {
+      type: String,
+      enum: ['email', 'sms', 'push'],
+      default: 'email',
+    },
+  }],
+  audienceRules: {
+    segment: String,
+    conditions: [{
+      field: String,
+      operator: String,
+      value: String,
+    }],
   },
   totalAudienceCount: {
     type: Number,
@@ -86,11 +68,10 @@ const campaignSchema = new mongoose.Schema({
       default: 0,
     },
   },
+  tag: String,
+  objective: String,
+  description: String,
   deliveryLogs: [deliveryLogSchema],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
   updatedAt: {
     type: Date,
     default: Date.now,
