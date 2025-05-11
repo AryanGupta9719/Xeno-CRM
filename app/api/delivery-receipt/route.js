@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { enqueueDeliveryReceipt } from '@/lib/deliveryQueue';
+import { enqueueDeliveryReceipt } from '../../../lib/deliveryQueue';
 
 export async function POST(request) {
   try {
