@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
-import { Campaign } from '../../../../models/Campaign';
+import Campaign from '../../../../models/campaign';
 
 // Define valid status transitions
 const validTransitions = {

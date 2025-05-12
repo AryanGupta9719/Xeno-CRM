@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { enqueueDeliveryReceipt } from '../../../lib/deliveryQueue';
+import { enqueueReceipt } from '../../../lib/deliveryQueue';
 
 // Simulate random delivery delay between 200-800ms
 const getRandomDelay = () => Math.floor(Math.random() * (800 - 200 + 1)) + 200;
@@ -26,7 +26,7 @@ export async function POST(request) {
     const status = isSuccess ? 'SENT' : 'FAILED';
 
     // Queue the delivery receipt
-    enqueueDeliveryReceipt({ userId, campaignId, status });
+    enqueueReceipt({ userId, campaignId, status });
 
     return NextResponse.json({
       success: true,

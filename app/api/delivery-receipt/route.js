@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { enqueueDeliveryReceipt } from '../../../lib/deliveryQueue';
+import { enqueueReceipt } from '../../../lib/deliveryQueue';
 
 export async function POST(request) {
   try {
@@ -20,7 +20,7 @@ export async function POST(request) {
     }
 
     // Queue the receipt instead of processing immediately
-    enqueueDeliveryReceipt({ userId, campaignId, status });
+    enqueueReceipt({ userId, campaignId, status });
 
     return NextResponse.json({
       success: true,
