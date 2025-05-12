@@ -9,7 +9,7 @@ export async function GET() {
       .sort({ createdAt: -1 })
       .lean()
     
-    return NextResponse.json({ success: true, campaigns })
+    return NextResponse.json({ success: true, data: { campaigns } })
   } catch (error) {
     console.error('Error fetching campaigns:', error)
     return NextResponse.json(
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     const campaign = new Campaign(data)
     await campaign.save()
 
-    return NextResponse.json({ success: true, campaign })
+    return NextResponse.json({ success: true, data: { campaign } })
   } catch (error) {
     console.error('Error creating campaign:', error)
     return NextResponse.json(
