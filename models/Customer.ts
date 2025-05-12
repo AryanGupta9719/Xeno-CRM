@@ -1,19 +1,19 @@
 import mongoose from 'mongoose';
+import { nanoid } from 'nanoid';
 
 const customerSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
+  customerId: { 
+    type: String, 
+    required: true, 
+    unique: true,
+    default: () => nanoid(10)
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  phone: {
-    type: String,
-    required: true
-  },
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  phone: { type: String },
+  segment: { type: String },
+  tags: [{ type: String }],
+  metadata: { type: mongoose.Schema.Types.Mixed },
   totalSpend: {
     type: Number,
     default: 0
@@ -30,15 +30,15 @@ const customerSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 });
+
+// Add indexes for better query performance
+customerSchema.index({ customerId: 1 });
+customerSchema.index({ email: 1 });
+customerSchema.index({ segment: 1 });
+customerSchema.index({ createdAt: -1 });
 
 // Update daysInactive before saving
 customerSchema.pre('save', function(next) {
