@@ -1,11 +1,13 @@
 import { NextResponse } from 'next/server';
-import { Campaign } from '@/models/campaign';
+import { connectDB } from '@/lib/db';
+import Campaign from '@/models/campaign';
 
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
+    await connectDB();
     const campaign = await Campaign.findById(params.id);
     if (!campaign) {
       return NextResponse.json(
@@ -28,18 +30,22 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const body = await request.json();
+    const data = await request.json();
+    await connectDB();
+
     const campaign = await Campaign.findByIdAndUpdate(
       params.id,
-      { $set: body },
+      { $set: data },
       { new: true }
     );
+
     if (!campaign) {
       return NextResponse.json(
         { success: false, error: 'Campaign not found' },
         { status: 404 }
       );
     }
+
     return NextResponse.json({ success: true, data: { campaign } });
   } catch (error) {
     console.error('Error updating campaign:', error);
@@ -55,13 +61,16 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    await connectDB();
     const campaign = await Campaign.findByIdAndDelete(params.id);
+
     if (!campaign) {
       return NextResponse.json(
         { success: false, error: 'Campaign not found' },
         { status: 404 }
       );
     }
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting campaign:', error);
