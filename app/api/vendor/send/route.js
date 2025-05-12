@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { enqueueReceipt } from '../../../lib/deliveryQueue';
+import { enqueueReceipt } from '@/lib/deliveryQueue';
 
 // Simulate random delivery delay between 200-800ms
 const getRandomDelay = () => Math.floor(Math.random() * (800 - 200 + 1)) + 200;
